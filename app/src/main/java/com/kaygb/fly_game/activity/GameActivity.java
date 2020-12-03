@@ -23,6 +23,7 @@ public class GameActivity extends Activity {
         bitmapIds.put("explosion", R.drawable.explosion);
         bitmapIds.put("yellow_bullet", R.drawable.yellow_bullet);
         bitmapIds.put("blue_bullet", R.drawable.blue_bullet);
+//        bitmapIds.put("small", R.drawable.small);
         bitmapIds.put("small", R.drawable.small);
         bitmapIds.put("big", R.drawable.big);
         bitmapIds.put("bomb_award", R.drawable.bomb_award);
@@ -30,6 +31,11 @@ public class GameActivity extends Activity {
         bitmapIds.put("pause1", R.drawable.pause1);
         bitmapIds.put("pause2", R.drawable.pause2);
         bitmapIds.put("bomb", R.drawable.bomb);
+        bitmapIds.put("d1", R.drawable.d1);
+        bitmapIds.put("d2", R.drawable.d2);
+        bitmapIds.put("d3", R.drawable.d3);
+        bitmapIds.put("d4", R.drawable.d4);
+
         gameView.run(bitmapIds);
     }
 

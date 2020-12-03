@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     tools:context=".activity.MainActivity">
 
     <Button
         android:id="@+id/btnStartGame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Start Game"
+        android:layout_height="match_parent"
+        android:text="点击开始游戏"
+        android:background="#fff"
         android:textAllCaps="false"
+        android:gravity="center"
         android:onClick="onClick"
+        android:layout_gravity="center"
+
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

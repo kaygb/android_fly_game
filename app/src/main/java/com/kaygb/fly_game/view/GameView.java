@@ -1,9 +1,11 @@
 package com.kaygb.fly_game.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.hardware.Sensor;
@@ -15,6 +17,13 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.kaygb.fly_game.R;
+import com.kaygb.fly_game.activity.GameOverActivity;
+import com.kaygb.fly_game.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +31,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class GameView extends View implements SensorEventListener {
+public class GameView extends View  implements SensorEventListener {
+
 
     // 传感器
     public SensorManager mSensorManager;
@@ -115,6 +125,7 @@ public class GameView extends View implements SensorEventListener {
         mSensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
         //绘制UI
         postInvalidate();
+
     }
 
 
@@ -148,12 +159,19 @@ public class GameView extends View implements SensorEventListener {
         planeSprite.draw(canvas);
         //重绘UI1
         postInvalidate();
+//        if(score ==10){
+//////            sprite.draw(canvas);
+////            Paint paint1 = new Paint();
+////            paint.setColor(Color.BLUE);
+////            paint.setTextSize(100);
+////            canvas.drawText("游戏结束 ", 50, 100, paint1);
+////        }
     }
 
     public void addSprites(Canvas canvas)
     {
         Sprite sprite = null;
-        if(0 == frame % 5)
+        if(0 == frame % 5 &&score !=10)
         {
             int rand = (int)(Math.random() * 100);
             //发放子弹
@@ -164,7 +182,7 @@ public class GameView extends View implements SensorEventListener {
             //放大 boss
             if(2 > rand)
             {
-                sprite = new BossSprite(drawableBitmap.get("big"), density, paint);
+                sprite = new BossSprite(drawableBitmap.get("d1"), density, paint);
                 //位置于顶部随机
                 sprite.moveTo((int)(Math.random() * (canvas.getWidth() - sprite.width)), 0);
                 sprites.add(sprite);
@@ -172,14 +190,14 @@ public class GameView extends View implements SensorEventListener {
             //放小兵
             if(10 > rand)
             {
-                sprite = new SmallSprite(drawableBitmap.get("small"), density, paint);
+                sprite = new SmallSprite(drawableBitmap.get("d2"), density, paint);
                 //位置于顶部随机
                 sprite.moveTo((int)(Math.random() * (canvas.getWidth() - sprite.width)), 0);
                 sprites.add(sprite);
             }
         }
     }
-
+public int score = 0;
     public void drawSprites(Canvas canvas)
     {
         List<Sprite> newSprite = new ArrayList<Sprite>();
@@ -216,15 +234,31 @@ public class GameView extends View implements SensorEventListener {
                                     //调整位置
                                     expSprite.moveTo(sprite.x, sprite.y);
                                     newSprite.add(expSprite);
+                                    score++;
+                                    if(score == 10){
+                                        // 达到10分时邮箱状态为停止
+                                        status = STATUS_OVER;
+                                    }
+
+
+
                                 }
+
                                 //销毁炮弹
                                 bulletSprite.bitmap = null;
+
                             }
                         }
                     }
                 }
             }
+
+            // 实时更新分数
             sprite.draw(canvas);
+            Paint paint = new Paint();
+            paint.setColor(Color.BLUE);
+            paint.setTextSize(100);
+            canvas.drawText("score: "+score, 50, 100, paint);
         }
         //添加爆炸效果图 到 sprites 下次就会绘制出来
         sprites.addAll(newSprite);
@@ -261,6 +295,8 @@ public class GameView extends View implements SensorEventListener {
 
     public void drawGameOver(Canvas canvas)
     {
+            Intent intent = new Intent(getContext(),GameOverActivity.class);
+            getContext().startActivity(intent);
 
     }
 
@@ -284,7 +320,7 @@ public class GameView extends View implements SensorEventListener {
             float y = values[1];
             float z = values[2];
 //            Log.e("CANW",cancasW+"");
-            Log.e("CANH",planeSprite.y+"");
+//            Log.e("CANH",planeSprite.y+"");
 //            Log.e("XYZ","Y: "+(int) y+"  X: "+(int) x + "  Z: "+ (int) z);
 //            Log.e("PS",planeSprite.width+"");
             if (x>2 && planeSprite.x>= 0) { //获取传感器值并移动相应的距离

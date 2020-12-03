@@ -36,6 +36,8 @@ public class Sprite {
     //当前帧数
     public int frame = 0;
 
+
+
     public Sprite(Bitmap bitmap)
     {
         this.bitmap = bitmap;
